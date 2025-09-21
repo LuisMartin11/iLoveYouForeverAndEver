@@ -1,0 +1,221 @@
+:root{
+  --petal-l: 130px;
+  --petal-w: 36px;
+
+  --petals-outer: 48;
+  --petals-mid:   44;
+  --petals-inner: 40;
+
+  /* Amarillos (gerbera) */
+  --y1:#fff1a6;
+  --y2:#ffd94d;
+  --y3:#f7bd1a;
+  --y4:#d49306;
+
+  /* Centro */
+  --brown1:#4b341e;
+  --brown2:#6a4524;
+  --pollen:#ffe27a;
+
+  /* Verdes */
+  --green1:#3a9b52;
+  --green2:#23723a;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:system-ui,Segoe UI,Roboto,Arial;
+  background: radial-gradient(1200px 700px at 50% 120%, #0e1a2f 0%, #0b1220 40%, #070c17 100%);
+  color:#fff;
+}
+
+.stage{
+  min-height:100dvh;
+  display:grid;
+  place-items:center;
+  padding:2rem;
+}
+
+.flower{
+  position:relative;
+  width:min(62vmin,560px);
+  aspect-ratio:1/1.25;
+  display:grid;
+  place-items:center;
+  animation:float 6s ease-in-out infinite;
+}
+
+/* Tallo y hojas */
+.stem{
+  position:absolute; bottom:0; left:50%;
+  width:18px; height:55%;
+  transform:translateX(-50%);
+  background:linear-gradient(180deg,var(--green1),var(--green2));
+  border-radius:12px;
+  filter:drop-shadow(0 8px 10px rgba(0,0,0,.35));
+}
+.stem::before{
+  content:""; position:absolute; inset:0; border-radius:12px;
+  background:
+    radial-gradient(30px 80% at 30% 40%, rgba(255,255,255,.18), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.12), transparent 30%, rgba(0,0,0,.15) 80%);
+  mask: radial-gradient(120% 100% at 50% 0, #000 60%, transparent 61%);
+}
+.leaf{
+  position:absolute; bottom:28%;
+  width:150px; height:78px;
+  background:linear-gradient(90deg,var(--green2),var(--green1));
+  border-radius:150px 150px 0 150px / 110px 110px 0 110px;
+  filter:drop-shadow(0 10px 10px rgba(0,0,0,.35));
+}
+.leaf--left{ left:-120px; transform:rotate(-28deg); clip-path:ellipse(70% 48% at 60% 52%) }
+.leaf--right{ right:-120px; transform:scaleX(-1) rotate(-18deg); clip-path:ellipse(70% 48% at 60% 52%) }
+
+/* Cabeza */
+.head{
+  position:absolute; bottom:40%;
+  width:74%; aspect-ratio:1/1;
+  display:grid; place-items:center;
+}
+
+/* ====== PÉTALOS ====== */
+/* Wrapper: aplica el ÁNGULO base (no animado) */
+.petal-wrap{
+  position:absolute; inset:0;
+  transform-origin:50% 50%;
+}
+
+/* Hijo: se posiciona y ANIMA sin perder el ángulo del wrapper */
+.petal{
+  position:absolute; left:50%; top:50%;
+  width:var(--w, var(--petal-w)); height:var(--l, var(--petal-l));
+  transform-origin:50% calc(100% - 10px);
+  translate:-50% -95%;
+  border-radius: 100px 100px 62px 62px / 120px 120px 45px 45px;
+  background:
+    radial-gradient(70% 45% at 50% 18%, var(--y1), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.08) 0 2px, rgba(0,0,0,.05) 2px 4px),
+    linear-gradient(180deg, var(--y2) 0%, var(--y3) 60%, var(--y4) 100%);
+  box-shadow: inset 0 -8px 14px rgba(0,0,0,.18), 0 8px 16px rgba(0,0,0,.23);
+  mask: radial-gradient(125% 110% at 50% 12%, #000 62%, transparent 63%);
+  animation: sway 5.8s ease-in-out infinite;
+}
+
+.petal--outer{ --l: calc(var(--petal-l) * 1.00); --w: calc(var(--petal-w) * 1.00) }
+.petal--mid  { --l: calc(var(--petal-l) * 0.82); --w: calc(var(--petal-w) * 0.92) }
+.petal--inner{ --l: calc(var(--petal-l) * 0.66); --w: calc(var(--petal-w) * 0.82) }
+
+/* Animaciones */
+@keyframes sway {
+  0%,100% { transform: translateY(0) rotate(0deg) }
+  50%     { transform: translateY(-4px) rotate(-.6deg) }
+}
+@keyframes float {
+  0%,100% { transform:translateY(0) }
+  50%     { transform:translateY(6px) }
+}
+
+/* Centro */
+.disk{
+  position:absolute; width:33%; aspect-ratio:1/1; border-radius:50%;
+  background:
+    radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.12), transparent 45%),
+    radial-gradient(closest-side, var(--brown2), var(--brown1));
+  box-shadow: inset 0 6px 18px rgba(0,0,0,.35), 0 10px 18px rgba(0,0,0,.3);
+}
+.disk__inner{
+  position:absolute; inset:8%; border-radius:50%;
+  background:
+    repeating-radial-gradient(circle at 52% 46%, rgba(0,0,0,.22) 0 4px, transparent 4px 6px),
+    radial-gradient(closest-side, rgba(255,255,255,.06), transparent 70%);
+}
+.disk__crown{
+  position:absolute; inset:-8%; border-radius:50%;
+  background:
+    radial-gradient(closest-side, transparent 68%, rgba(0,0,0,.45) 69% 72%, transparent 73%),
+    conic-gradient(from 0deg, rgba(255,255,255,.08), rgba(0,0,0,.12), rgba(255,255,255,.08));
+}
+
+/* Halo de polen */
+.ring--pollen{
+  position:absolute; width:46%; aspect-ratio:1/1; border-radius:50%;
+  background:
+    radial-gradient(closest-side, transparent 60%, rgba(0,0,0,.35) 61% 62%, transparent 63%),
+    radial-gradient(circle at 50% 0%, var(--pollen) 2px, transparent 3px),
+    radial-gradient(circle at 85% 22%, var(--pollen) 1.8px, transparent 3px),
+    radial-gradient(circle at 15% 20%, var(--pollen) 2px, transparent 3px),
+    radial-gradient(circle at 78% 80%, var(--pollen) 1.7px, transparent 3px),
+    radial-gradient(circle at 20% 78%, var(--pollen) 1.9px, transparent 3px),
+    radial-gradient(circle at 35% 50%, var(--pollen) 2px, transparent 3px),
+    radial-gradient(circle at 62% 55%, var(--pollen) 1.7px, transparent 3px);
+  mix-blend-mode:screen;
+  pointer-events:none;
+}
+
+:root{
+  --papel:#fbefd2;   /* base pergamino */
+  --tinta:#3b2f1a;   /* texto */
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background: radial-gradient(1200px 700px at 50% 120%, #0e1a2f 0, #0b1220 40%, #070c17 100%);
+  font-family: "Georgia", "Times New Roman", serif;
+  color:var(--tinta);
+}
+
+.canvas{
+  min-height:100%;
+  display:flex; 
+  align-items:center; 
+  justify-content:center;
+  padding:4vmin;
+}
+
+/* --- Carta con borde rasgado sin sombras --- */
+.carta{
+  width:min(700px, 88vw);
+  padding:3rem 2.5rem;
+  position:relative;
+  line-height:1.75;
+  font-size:clamp(1.05rem, 1.2vw + .8rem, 1.35rem);
+  background:
+    /* textura ligera de rayitas */
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,.05) 0 2px,
+      transparent 2px 4px
+    ),
+    var(--papel);
+  color: var(--tinta);
+
+  /* recorte irregular “rasgado” */
+  clip-path: polygon(
+    3% 2%,   10% 0%,   18% 2%,   28% 1%,   36% 0%,   45% 2%,
+    53% 1%,  62% 2%,   70% 0%,   79% 3%,   87% 1%,   95% 3%,
+    98% 10%, 100% 18%, 98% 26%,  100% 36%, 98% 45%,  100% 53%,
+    98% 62%, 100% 70%, 98% 79%,  100% 87%, 97% 94%,  89% 98%,
+    80% 100%,70% 98%,  61% 99%,  52% 98%,  43% 100%, 34% 98%,
+    26% 100%,17% 98%,  9% 99%,   3% 95%,   0% 88%,   2% 79%,
+    0% 71%,  2% 62%,   0% 54%,   2% 45%,   0% 36%,   2% 27%,
+    0% 18%,  2% 9%
+  );
+  
+  border: 1px solid rgba(0,0,0,.15); /* borde clarito */
+}
+
+/* quitamos los pseudos que metían sombras */
+.carta::before,
+.carta::after{
+  content:none;
+}
+
+.carta p{
+  margin:0;
+  text-align:center;
+  font-style:italic;
+}
